@@ -1,5 +1,10 @@
 package astify
 
+import (
+	"go/ast"
+	"path/filepath"
+)
+
 // Astify ...
 type Astify struct {
 	name  string
@@ -54,6 +59,22 @@ type GoFile struct {
 	size  int
 	pkg   *Pkg
 	nodes []Node
+}
+
+func newFile(path string, file *ast.File) *GoFile {
+	name, _ := filepath.Abs(path)
+	f := &GoFile{
+		name: name,
+		path: path,
+	}
+	for _, d := range file.Decls {
+		f.nodes = append(f.nodes, conv2Node(d))
+	}
+	return f
+}
+
+func conv2Node(decl ast.Decl) Node {
+	return nil
 }
 
 // Walk ...
