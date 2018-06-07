@@ -8,11 +8,37 @@ type Astify struct {
 	pkgs  []*Pkg
 }
 
+// Walk ...
+func (a *Astify) Walk(visiter func(file *GoFile, n Node) error) error {
+	for _, p := range a.pkgs {
+		for _, f := range p.files {
+			for _, n := range f.Nodes() {
+				if err := visiter(f, n); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
+}
+
 // Pkg ...
 type Pkg struct {
 	name  string
 	path  string
 	files []*GoFile
+}
+
+// Walk ...
+func (p *Pkg) Walk(visiter func(file *GoFile, n Node) error) error {
+	for _, f := range p.files {
+		for _, n := range f.Nodes() {
+			if err := visiter(f, n); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 // Name ...
@@ -28,6 +54,16 @@ type GoFile struct {
 	size  int
 	pkg   *Pkg
 	nodes []Node
+}
+
+// Walk ...
+func (f *GoFile) Walk(walk func(Node) error) error {
+	for _, d := range f.nodes {
+		if err := walk(d); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // Name ...
