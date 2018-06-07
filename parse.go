@@ -3,6 +3,7 @@ package astify
 import (
 	"go/parser"
 	"go/token"
+	"sort"
 )
 
 // ParseFile ...
@@ -31,8 +32,15 @@ func Parse(path string) (*Astify, error) {
 			files: make([]*GoFile, 0, len(pkg.Files)),
 		}
 
-		for fname, f := range pkg.Files {
-			p.files = append(p.files, newFile(fname, f))
+		// sort files by name to make file order deterministic
+		fnames := make([]string, 0, len(pkg.Files))
+		for fname := range pkg.Files {
+			fnames = append(fnames, fname)
+		}
+		sort.Strings(fnames)
+
+		for _, fname := range fnames {
+			p.files = append(p.files, newFile(fname, pkg.Files[fname]))
 		}
 
 		a.pkgs = append(a.pkgs, p)
