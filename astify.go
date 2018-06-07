@@ -15,6 +15,11 @@ type Pkg struct {
 	files []*GoFile
 }
 
+// Name ...
+func (p *Pkg) Name() string {
+	return p.name
+}
+
 // GoFile ...
 type GoFile struct {
 	declaration
@@ -23,6 +28,31 @@ type GoFile struct {
 	size  int
 	pkg   *Pkg
 	nodes []Node
+}
+
+// Name ...
+func (f *GoFile) Name() string {
+	return f.name
+}
+
+// Path ...
+func (f *GoFile) Path() string {
+	return f.path
+}
+
+// Size ...
+func (f *GoFile) Size() int {
+	return f.size
+}
+
+// Package ...
+func (f *GoFile) Package() *Pkg {
+	return f.pkg
+}
+
+// Nodes ...
+func (f *GoFile) Nodes() []Node {
+	return f.nodes
 }
 
 // Node ...
