@@ -9,10 +9,9 @@ import (
 
 // Astify ...
 type Astify struct {
-	name  string
-	path  string
-	files []*GoFile
-	pkgs  []*Pkg
+	name string
+	path string
+	pkgs []*Pkg
 }
 
 // Walk ...
@@ -48,7 +47,7 @@ func (p *Pkg) Walk(visiter func(file *GoFile, n Node) error) error {
 	return nil
 }
 
-// Name ...
+// Name returns a name of the package.
 func (p *Pkg) Name() string {
 	return p.name
 }
@@ -78,27 +77,27 @@ func newFile(path string, file *ast.File) *GoFile {
 func conv2Node(decl ast.Decl) Node {
 	switch decl := decl.(type) {
 	case *ast.FuncDecl:
-		// return newFunction(decl)
+		return newFunction(decl)
 
 	case *ast.GenDecl:
 		for _, spec := range decl.Specs {
 			switch spec := spec.(type) {
 			case *ast.ImportSpec:
-				// return newImport(spec)
+				return newImport(spec)
 
 			case *ast.ValueSpec:
-				// return newValue(spec)
+				return newValue(spec)
 
 			case *ast.TypeSpec:
 				switch spec.Type.(type) {
 				case *ast.StructType:
-					// return newStruct(spec)
+					return newStruct(spec)
 
 				case *ast.InterfaceType:
-					// return newInterface(spec)
+					return newInterface(spec)
 
 				case *ast.FuncType:
-					// return newType(spec)
+					return newType(spec)
 
 				default:
 					return nil
@@ -116,7 +115,6 @@ func conv2Node(decl ast.Decl) Node {
 		println("woah nil x3")
 		return nil
 	}
-	return nil
 }
 
 // Walk ...
@@ -129,17 +127,17 @@ func (f *GoFile) Walk(walk func(Node) error) error {
 	return nil
 }
 
-// Name ...
+// Name returns a name of the Go file.
 func (f *GoFile) Name() string {
 	return f.name
 }
 
-// Path ...
+// Path returns a path to the Go file.
 func (f *GoFile) Path() string {
 	return f.path
 }
 
-// Size ...
+// Size return a size of the Go file in bytes.
 func (f *GoFile) Size() int {
 	return f.size
 }
@@ -149,7 +147,7 @@ func (f *GoFile) Package() *Pkg {
 	return f.pkg
 }
 
-// Nodes ...
+// Nodes returns a list of nodes inside a Go file.
 func (f *GoFile) Nodes() []Node {
 	return f.nodes
 }
