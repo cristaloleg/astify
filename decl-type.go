@@ -17,7 +17,7 @@ func newType(spec *ast.TypeSpec) Node {
 	return typ
 }
 
-// Name ...
+// Name returns a name of the type.
 func (t *Type) Name() string {
 	return t.name
 }

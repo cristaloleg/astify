@@ -2,8 +2,8 @@ package astify
 
 import "go/ast"
 
-// TODO: some of std imports, is there a better way to do this?
-var std = buildSet([]string{"math", "io", "sync", "fmt", "math/big", "net", "net/http"})
+// TODO: some of std imports, is there a better way to do this? https://godoc.org/-/go
+var stdPackages = buildSet([]string{"math", "io", "sync", "fmt", "math/big", "net", "net/http"})
 
 // Import ...
 type Import struct {
@@ -21,7 +21,7 @@ func newImport(spec *ast.ImportSpec) *Import {
 	return impr
 }
 
-// Name ...
+// Name returns a name of the import.
 func (i *Import) Name() string {
 	return i.name
 }
@@ -33,7 +33,7 @@ func (i *Import) Path() string {
 
 // IsStd ....
 func (i *Import) IsStd() bool {
-	_, ok := std[i.path]
+	_, ok := stdPackages[i.path]
 	return ok
 }
 

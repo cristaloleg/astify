@@ -5,7 +5,8 @@ import (
 	"strings"
 )
 
-// Function ...
+// Function represents a function declaration.
+// Also may represent a method in interface declaration.
 type Function struct {
 	declaration
 	name        string
@@ -46,47 +47,47 @@ func newMethod(field *ast.Field) *Function {
 	return fn
 }
 
-// Name ...
+// Name returns a name of the function.
 func (f *Function) Name() string {
 	return f.name
 }
 
-// Comment ...
+// Comment returns an associated comment to the function.
 func (f *Function) Comment() *Comment {
 	return f.comment
 }
 
-// Receiver ...
+// Receiver returns a receiver(if any, otherwise a nil) of the funtion.
 func (f *Function) Receiver() *Param {
 	return f.receiver
 }
 
-// Params ...
+// Params returns params of the function.
 func (f *Function) Params() []*Param {
 	return f.params
 }
 
-// Results ...
+// Results returns results of the function.
 func (f *Function) Results() []*Param {
 	return f.results
 }
 
-// IsExported ...
+// IsExported returns true if function is exported.
 func (f *Function) IsExported() bool {
 	return ast.IsExported(f.name)
 }
 
-// IsMethod ...
+// IsMethod returns true if function is a method of a struct.
 func (f *Function) IsMethod() bool {
 	return f.receiver != nil
 }
 
-// IsExternal ...
+// IsExternal returns true if function doesn't have an implemetation.
 func (f *Function) IsExternal() bool {
 	return f.isExternal
 }
 
-// IsTestFunc ...
+// IsTestFunc returns true if it's a testing function.
 func (f *Function) IsTestFunc() bool {
 	return strings.HasPrefix(f.name, "Test") &&
 		len(f.results) == 0 &&

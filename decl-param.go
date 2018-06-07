@@ -1,7 +1,5 @@
 package astify
 
-import "go/ast"
-
 // Param ...
 type Param struct {
 	name string
@@ -16,7 +14,7 @@ func newParam(name string, typ *GoType) *Param {
 	return p
 }
 
-// Name ...
+// Name returns a name of the param.
 func (p *Param) Name() string {
 	return p.name
 }
@@ -24,11 +22,6 @@ func (p *Param) Name() string {
 // Type ...
 func (p *Param) Type() *GoType {
 	return p.typ
-}
-
-// IsExported ...
-func (p *Param) IsExported() bool {
-	return ast.IsExported(p.name)
 }
 
 // IsNamed ...

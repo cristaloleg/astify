@@ -22,7 +22,7 @@ func newStruct(spec *ast.TypeSpec) *Struct {
 	return strct
 }
 
-// Name ...
+// Name returns a name of the struct.
 func (s *Struct) Name() string {
 	return s.name
 }
@@ -56,7 +56,7 @@ func newField(f *ast.Field) *Field {
 	return fld
 }
 
-// Name ...
+// Name returns a name of the field.
 func (f *Field) Name() string {
 	return f.name
 }

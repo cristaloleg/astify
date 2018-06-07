@@ -22,7 +22,7 @@ func newInterface(spec *ast.TypeSpec) *Interface {
 	return iface
 }
 
-// Name ...
+// Name returns a name of the interface.
 func (i *Interface) Name() string {
 	return i.name
 }
