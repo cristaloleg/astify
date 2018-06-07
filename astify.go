@@ -74,6 +74,46 @@ func newFile(path string, file *ast.File) *GoFile {
 }
 
 func conv2Node(decl ast.Decl) Node {
+	switch decl := decl.(type) {
+	case *ast.FuncDecl:
+		// return newFunction(decl)
+
+	case *ast.GenDecl:
+		for _, spec := range decl.Specs {
+			switch spec := spec.(type) {
+			case *ast.ImportSpec:
+				// return newImport(spec)
+
+			case *ast.ValueSpec:
+				// return newValue(spec)
+
+			case *ast.TypeSpec:
+				switch spec.Type.(type) {
+				case *ast.StructType:
+					// return newStruct(spec)
+
+				case *ast.InterfaceType:
+					// return newInterface(spec)
+
+				case *ast.FuncType:
+					// return newType(spec)
+
+				default:
+					return nil
+				}
+
+			default:
+				println("woah nil")
+				return nil
+			}
+		}
+		println("woah nil x2")
+		return nil
+
+	default:
+		println("woah nil x3")
+		return nil
+	}
 	return nil
 }
 
