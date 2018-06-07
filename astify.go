@@ -3,6 +3,8 @@ package astify
 import (
 	"go/ast"
 	"path/filepath"
+	"regexp"
+	"strings"
 )
 
 // Astify ...
@@ -170,3 +172,64 @@ type (
 func (d *declaration) node() {}
 func (s *statement) node()   {}
 func (e *expression) node()  {}
+
+// WalkFlag ...
+type WalkFlag int64
+
+const (
+	// AllFlag ...
+	AllFlag WalkFlag = ^(0)
+	// CodeFlag ...
+	CodeFlag WalkFlag = iota
+	// TestFlag ...
+	TestFlag
+	// VendorFlag ...
+	VendorFlag
+	// LinuxFlag ...
+	LinuxFlag
+	// WindowsFlag ...
+	WindowsFlag
+	// DarwinFlag ...
+	DarwinFlag
+	// ...
+)
+
+// IsFile ...
+func IsFile(file *GoFile, flag WalkFlag) bool {
+	switch flag {
+	case AllFlag:
+		return true
+
+	case CodeFlag:
+		return !strings.HasSuffix(file.name, "_test.go")
+
+	case TestFlag:
+		return strings.HasSuffix(file.name, "_test.go")
+
+	case VendorFlag:
+		return strings.Contains(file.name, "/vendor/")
+
+	case LinuxFlag:
+		return strings.HasSuffix(file.name, "_linux.go")
+
+	case WindowsFlag:
+		return strings.HasSuffix(file.name, "_windows.go")
+
+	case DarwinFlag:
+		return strings.HasSuffix(file.name, "_darwin.go")
+
+	default:
+		// log
+		return false
+	}
+}
+
+// IsFilePathMatches ...
+func IsFilePathMatches(file *GoFile, re *regexp.Regexp) bool {
+	return re.MatchString(file.Path())
+}
+
+// IsFileNameMatches ...
+func IsFileNameMatches(file *GoFile, re *regexp.Regexp) bool {
+	return re.MatchString(file.Name())
+}
