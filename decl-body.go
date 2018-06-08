@@ -9,14 +9,57 @@ type Body struct {
 }
 
 func newBody(body *ast.BlockStmt) Node {
-	b := &Body{}
-	// for _, s := range body.List {
-	// 	b.stmts = append(b.stmts, conv2Stmt(s))
-	// }
+	b := &Body{
+		stmts: make([]Node, 0, len(body.List)),
+	}
+	for _, s := range body.List {
+		b.stmts = append(b.stmts, conv2Stmt(s))
+	}
 	return b
 }
 
 func conv2Stmt(stmt ast.Stmt) Node {
-	s := &statement{}
-	return s
+	switch stmt := stmt.(type) {
+	case *ast.BadStmt:
+		// log
+
+	case *ast.DeclStmt:
+	case *ast.EmptyStmt:
+	case *ast.LabeledStmt:
+	case *ast.ExprStmt:
+	case *ast.SendStmt:
+	case *ast.IncDecStmt:
+	case *ast.AssignStmt:
+	case *ast.BranchStmt:
+	case *ast.CaseClause:
+	case *ast.SwitchStmt:
+	case *ast.TypeSwitchStmt:
+	case *ast.CommClause:
+	case *ast.SelectStmt:
+	case *ast.ForStmt:
+	case *ast.RangeStmt:
+
+	case *ast.GoStmt:
+		return newGoroutine(stmt.Call)
+
+	case *ast.DeferStmt:
+		return newDefer(stmt.Call)
+
+	case *ast.BlockStmt:
+		return conv2Stmt(stmt)
+
+	case *ast.IfStmt:
+		return newBranch(stmt.Cond, stmt.Body, stmt.Else)
+
+	case *ast.ReturnStmt:
+		for _, r := range stmt.Results {
+			switch expr := r.(type) {
+			case *ast.BinaryExpr:
+				_ = expr
+			}
+		}
+	default:
+		return nil
+	}
+	return nil
 }
