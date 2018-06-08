@@ -97,8 +97,13 @@ func conv2Node(decl ast.Decl) Node {
 					return newInterface(spec)
 
 				case *ast.FuncType:
-					return newType(spec)
-
+					// return newFuncType(spec)
+				case *ast.MapType:
+					// return newMapType(spec)
+				case *ast.ChanType:
+					// return newChanType(spec)
+				case *ast.ArrayType:
+					// return newArrayType(spec)
 				default:
 					return nil
 				}
