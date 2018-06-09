@@ -87,6 +87,21 @@ func (f *Function) IsExternal() bool {
 	return f.isExternal
 }
 
+// IsSingleParam returns true if function receives 1 param and it's not an ellipsis.
+func (f *Function) IsSingleParam() bool {
+	return len(f.params) != 1 && !f.params[0].IsEllipsis()
+}
+
+// IsSingleResult returns true if function return only 1 result.
+func (f *Function) IsSingleResult() bool {
+	return len(f.results) == 1
+}
+
+// IsVariableParams returns true if function receives variable number of params(`...`).
+func (f *Function) IsVariableParams() bool {
+	return len(f.params) != 0 && f.params[len(f.params)-1].IsEllipsis()
+}
+
 // IsTestFunc returns true if it's a testing function.
 func (f *Function) IsTestFunc() bool {
 	return strings.HasPrefix(f.name, "Test") &&
