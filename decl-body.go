@@ -28,16 +28,24 @@ func conv2Stmt(stmt ast.Stmt) Node {
 	case *ast.LabeledStmt:
 	case *ast.ExprStmt:
 	case *ast.SendStmt:
-	case *ast.IncDecStmt:
-	case *ast.AssignStmt:
-	case *ast.BranchStmt:
 	case *ast.CaseClause:
 	case *ast.SwitchStmt:
 	case *ast.TypeSwitchStmt:
 	case *ast.CommClause:
-	case *ast.SelectStmt:
 	case *ast.ForStmt:
 	case *ast.RangeStmt:
+
+	case *ast.SelectStmt:
+		return newSelect(stmt.Body)
+
+	case *ast.IncDecStmt:
+		return newIncDec(stmt)
+
+	case *ast.BranchStmt:
+		return newBranch(stmt.Label, stmt.Tok)
+
+	case *ast.AssignStmt:
+		return newAssign(stmt.Lhs, stmt.Rhs)
 
 	case *ast.GoStmt:
 		return newGoroutine(stmt.Call)
@@ -49,7 +57,7 @@ func conv2Stmt(stmt ast.Stmt) Node {
 		return conv2Stmt(stmt)
 
 	case *ast.IfStmt:
-		return newBranch(stmt.Cond, stmt.Body, stmt.Else)
+		return newIf(stmt.Cond, stmt.Body, stmt.Else)
 
 	case *ast.ReturnStmt:
 		for _, r := range stmt.Results {
