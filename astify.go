@@ -197,8 +197,8 @@ const (
 	// ...
 )
 
-// IsFile ...
-func IsFile(file *GoFile, flag WalkFlag) bool {
+// IsFileMatches ...
+func IsFileMatches(file *GoFile, flag WalkFlag) bool {
 	switch flag {
 	case AllFlag:
 		return true
