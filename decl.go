@@ -2,18 +2,14 @@ package astify
 
 // IsDeclaration ...
 func IsDeclaration(n Node) bool {
-	return IsImport(n) ||
-		IsComment(n) ||
-		IsFunction(n) ||
-		IsStruct(n) ||
-		IsInterface(n) ||
-		IsType(n) ||
-		IsValue(n)
+	_, ok := n.(*declaration)
+	return ok
 }
 
 // IsStatement ...
 func IsStatement(n Node) bool {
-	return false
+	_, ok := n.(*declaration)
+	return ok
 }
 
 // func IsPackage(n Node) bool {
