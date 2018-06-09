@@ -1,6 +1,7 @@
 # Astify
 
 [![Build Status](https://travis-ci.org/cristaloleg/astify.svg?branch=master)](https://travis-ci.org/cristaloleg/astify)
+[![Go Report Card](https://goreportcard.com/badge/github.com/cristaloleg/astify)](https://goreportcard.com/report/github.com/cristaloleg/astify)
 
 ### An easy Go AST explorer.
 
