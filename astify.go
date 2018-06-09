@@ -2,6 +2,7 @@ package astify
 
 import (
 	"go/ast"
+	"go/types"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -9,9 +10,10 @@ import (
 
 // Astify ...
 type Astify struct {
-	name string
-	path string
-	pkgs []*Pkg
+	name      string
+	path      string
+	pkgs      []*Pkg
+	typesInfo *types.Info
 }
 
 // Walk ...
