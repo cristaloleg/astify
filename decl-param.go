@@ -2,8 +2,9 @@ package astify
 
 // Param ...
 type Param struct {
-	name string
-	typ  *GoType
+	name       string
+	typ        *GoType
+	isEllipsis bool
 }
 
 func newParam(name string, typ *GoType) *Param {
@@ -32,4 +33,9 @@ func (p *Param) IsNamed() bool {
 // IsSkipped ...
 func (p *Param) IsSkipped() bool {
 	return p.name == "_"
+}
+
+// IsEllipsis ...
+func (p *Param) IsEllipsis() bool {
+	return p.isEllipsis
 }
