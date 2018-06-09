@@ -57,7 +57,7 @@ func (f *Function) Comment() *Comment {
 	return f.comment
 }
 
-// Receiver returns a receiver(if any, otherwise a nil) of the funtion.
+// Receiver returns a receiver(if any, otherwise a nil) of the function.
 func (f *Function) Receiver() *Param {
 	return f.receiver
 }
