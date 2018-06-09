@@ -1,11 +1,13 @@
 package astify
 
-// Branch ...
-type Branch struct {
+import "go/ast"
+
+// If ...
+type If struct {
 	statement
 }
 
-func newBranch(...interface{}) *Branch {
-	b := &Branch{}
-	return b
+func newIf(ast.Expr, *ast.BlockStmt, ast.Stmt) *If {
+	i := &If{}
+	return i
 }
