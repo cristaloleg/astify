@@ -1,13 +1,17 @@
 package astify
 
-import "go/ast"
+import (
+	"go/ast"
+	"go/types"
+)
 
 // GoType ...
 type GoType struct {
 	name        string
+	typ         types.Type
 	isPointer   bool
 	isBuiltin   bool
-	isPrimitive bool
+	isBasic     bool
 	isReference bool
 	isAlias     bool
 }
@@ -23,13 +27,24 @@ func (gt *GoType) Name() string {
 }
 
 // IsEqual ...
-func (gt *GoType) IsEqual(other *Type) bool {
+func (gt *GoType) IsEqual(other *GoType) bool {
+	return types.Identical(gt.typ, other.typ)
+}
+
+// IsComparable ...
+func (gt *GoType) IsComparable(other *GoType) bool {
+	return types.Comparable(gt.typ)
+}
+
+// IsNullable ...
+func (gt *GoType) IsNullable(other *GoType) bool {
+	// return types.hasNil(gt.typ)
 	return false
 }
 
 // IsPointerOf ...
 func (gt *GoType) IsPointerOf(other *Type) bool {
-	return false
+	return types.Identical(gt.typ.Underlying(), other.typ.typ)
 }
 
 // IsPointerTo ...
@@ -52,9 +67,9 @@ func (gt *GoType) IsBuiltin() bool {
 	return gt.isBuiltin
 }
 
-// IsPrimitive ...
-func (gt *GoType) IsPrimitive() bool {
-	return gt.isPrimitive
+// IsBasic ...
+func (gt *GoType) IsBasic() bool {
+	return gt.isBasic
 }
 
 // IsAlias ...
