@@ -5,7 +5,7 @@
 
 ### An easy Go AST explorer.
 
-```
+```go
 a, err := astify.Parse("~/go/src/github.com/cristaloleg/astify")
 if err != nil {
     panic(err)
